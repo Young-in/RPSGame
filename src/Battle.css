@@ -1,0 +1,50 @@
+.AIChoiceSection {
+    height: 40%;
+    /* background-color: var(--light-color); */
+    display: flex;
+    justify-content: center;
+  }
+  
+  .resultSection {
+    height: 20%;
+    /* background-color: var(--normal-color); */
+    display: flex;
+    justify-content: center;
+    align-content: stretch;
+  }
+  
+  .userChoiceSection {
+    height: 40%;
+    /* background-color: var(--light-color); */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+  
+  .choiceItem {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .choiceImg {
+  
+  }
+  
+  .choiceText {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.5rem;
+  }
+
+  .resultContainer {
+    display: table;
+    height: 100%;
+  }
+  
+  .resultDisplay {
+    display: table-cell;
+    vertical-align: middle;
+    font-size: 4rem;
+  }
