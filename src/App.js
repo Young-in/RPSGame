@@ -14,6 +14,14 @@ class App extends React.Component {
                   updateCount: 0};
     this.onSelect = this.onSelect.bind(this);
     this.onClose = this.onClose.bind(this);
+    this.clearHistory = this.clearHistory.bind(this);
+  }
+
+  clearHistory() {
+    console.log("Clear! from App");
+    const clearedHistories = [];
+    this.setState({histories: clearedHistories});
+    localStorage.setItem("previousHistory", JSON.stringify(clearedHistories));
   }
   
   onSelect(choice) {
@@ -49,7 +57,7 @@ class App extends React.Component {
     return (
       <React.Fragment>
         <aside className="scoreSidebar">
-          <Aside histories={histories} />
+          <Aside histories={histories} clearHistory={this.clearHistory} />
         </aside>
         <div className="mainApp" id="mainPage">
           <Battle aiChoice={aiChoice} onSelect={this.onSelect} updateCount={updateCount} />

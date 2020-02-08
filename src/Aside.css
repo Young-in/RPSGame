@@ -5,11 +5,34 @@
     align-content: stretch;
     overflow-y: hidden;
 }
-  
+
 .historyHeader {
+    display: flex;
+    justify-content: space-between;
+}
+
+.historyHeaderLeftSide {
+    /* clear: both; */
+    flex: 1;
+}
+
+.historyHeaderText {
     color: var(--text-color);
     font-size: 2rem;
     font-weight: bold;
+}
+
+.historyHeaderRightSide {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.historyClearButtonImage {
+    height: 2rem;
+    width: 2rem;
+    margin: 0.2rem;
 }
 
 .historyList {

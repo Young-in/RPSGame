@@ -28,6 +28,7 @@ class Aside extends React.Component {
   constructor(props) {
     super(props);
     this.myRef = React.createRef();
+    this.clearHistory = this.clearHistory.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -35,6 +36,10 @@ class Aside extends React.Component {
     if (this.props.histories !== prevProps.histories) {
       this.myRef.current.scrollTop = this.myRef.current.scrollHeight;
     }
+  }
+
+  clearHistory() {
+    console.log("Clear!");
   }
 
   render() {
@@ -53,7 +58,13 @@ class Aside extends React.Component {
     return (
       <React.Fragment>
         <div className="historyDisplay">
-          <header className="historyHeader">Logs</header>
+          <header className="historyHeader">
+            <div className="historyHeaderLeftSide"></div>
+            <span className="historyHeaderText">Logs</span>
+            <div className="historyHeaderRightSide">
+              <img className="historyClearButtonImage" src="clear.png" alt="Clear" onClick={this.props.clearHistory} />
+            </div>
+          </header>
           <div className="historyList">
             <div className="historyListHeader">
               <span className="historyListHeaderPlayer">You</span>
