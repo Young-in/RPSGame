@@ -80,39 +80,44 @@ export function determineWinner(player1, player2) {
 }
 
 export function chooseAIChoice(histories) {
-    return new RPS("Rock");
     if (histories && histories.length > 0) {
         const length = histories.length;
         if (length < 3) {
-            return ["Rock", "Paper", "Scissors"][Math.floor(Math.random() * 3)];
+            return new RPS(RPSArray[Math.floor(Math.random() * 3)]);
         }
         var numAction = {};
         for (var i = 2; i < length; i++) {
-            const prevAction = histories[i - 2].player[0] + histories[i - 2].ai[0] + histories[i - 1].player[0] + histories[i - 1].ai[0]; // Abbreviated form (such as "RRPS")
-            const currAction = histories[i].player; // Fully written form (such as "Paper")
-            if (numAction[prevAction] === null) {
+            const prevAction = histories[i - 2].player.getShortChoice() + histories[i - 2].ai.getShortChoice()
+                                + histories[i - 1].player.getShortChoice() + histories[i - 1].ai.getShortChoice(); // Abbreviated form (such as "RRPS")
+            const currAction = histories[i].player.getChoice(); // Fully written form (such as "Paper")
+            if (numAction[prevAction] === undefined) {
                 numAction[prevAction] = { "Rock": 0, "Paper": 0, "Scissors": 0 };
             }
             else {
                 numAction[prevAction][currAction]++;
             }
         }
-        const prevAction = histories[length - 2].player[0] + histories[length - 2].ai[0] + histories[length - 1].player[0] + histories[length - 1].ai[0];
-        if (numAction[prevAction] === null) {
-            return ["Rock", "Paper", "Scissors"][Math.floor(Math.random() * 3)];
+        const prevAction = histories[length - 2].player.getShortChoice() + histories[length - 2].ai.getShortChoice()
+                             + histories[length - 1].player.getShortChoice() + histories[length - 1].ai.getShortChoice();
+        console.log(prevAction);
+        if (numAction[prevAction] === undefined) {
+            return new RPS(RPSArray[Math.floor(Math.random() * 3)]);
         }
-        var predAction = "";
+        var predActionStr = "";
         var maxCount = -1;
-        for (var choice in numAction[prevAction]) {
-            if (maxCount < numAction[prevAction][choice]) {
-                maxCount = numAction[prevAction][choice];
-                predAction = choice;
+        for (var choiceStr in numAction[prevAction]) {
+            if (maxCount < numAction[prevAction][choiceStr]) {
+                maxCount = numAction[prevAction][choiceStr];
+                predActionStr = choiceStr;
             }
         }
-        var chosenAction = "";
-        return predAction;
+        console.log(predActionStr);
+        var predAction = new RPS(predActionStr);
+
+        var chosenAction = predAction.getWinningRPS();
+        return chosenAction;
     }
     else {
-        return ["Rock", "Paper", "Scissors"][Math.floor(Math.random() * 3)];
+        return new RPS(RPSArray[Math.floor(Math.random() * 3)]);
     }
 }
