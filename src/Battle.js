@@ -1,6 +1,6 @@
 import React from 'react';
 import './Battle.css';
-import {determineWinner} from './Tools';
+import {determineWinner, RPS} from './Tools';
 
 class Choice extends React.Component {
   constructor(props) {
@@ -52,11 +52,12 @@ class Battle extends React.Component {
     this.state = {appear: false};
   }
 
-  onSelect(choice) {
-    console.log("From Battle: " + choice);
+  onSelect(choiceStr) {
+    console.log("From Battle: " + choiceStr);
+    const choice = new RPS(choiceStr);
     this.setState((state, props) => ({
       appear: true,
-      result: determineWinner(choice, props.aiChoice)
+      result: RPS.determineWinner(choice, props.aiChoice)
     }));
     this.props.onSelect(choice);
   }
@@ -76,7 +77,7 @@ class Battle extends React.Component {
     return (
       <React.Fragment>
         <div className="AIChoiceSection">
-          <Choice name={appear ? aiChoice : "Unknown"} />
+          <Choice name={appear ? aiChoice.getChoice() : "Unknown"} />
         </div>
         <div className="resultSection">
           <ResultDisplay appear={appear} result={result}/>

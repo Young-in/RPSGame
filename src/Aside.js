@@ -1,6 +1,6 @@
 import React from 'react';
 import './Aside.css';
-import {determineWinner} from './Tools';
+import {determineWinner, RPS} from './Tools';
 
 class History extends React.Component {
   constructor(props) {
@@ -12,13 +12,13 @@ class History extends React.Component {
     const playerChoice = this.props.player;
     const aiChoice = this.props.ai;
 
-    const playerBlock = "historyBlock " + determineWinner(playerChoice, aiChoice);
-    const aiBlock = "historyBlock " + determineWinner(aiChoice, playerChoice); 
+    const playerBlock = "historyBlock " + RPS.determineWinner(playerChoice, aiChoice);
+    const aiBlock = "historyBlock " + RPS.determineWinner(aiChoice, playerChoice); 
 
     return (  
       <div className="historyBlockRow">
-        <span className={playerBlock}>{playerChoice}</span>
-        <span className={aiBlock}>{aiChoice}</span>
+        <span className={playerBlock}>{playerChoice.getChoice()}</span>
+        <span className={aiBlock}>{aiChoice.getChoice()}</span>
       </div>
     );
   }
@@ -45,11 +45,13 @@ class Aside extends React.Component {
   render() {
     // const playerScore = this.state.score.player;
     // const aiScore = this.state.score.ai;
-    const playerScore = this.props.histories.filter((history) => 
-      determineWinner(history.player, history.ai) === "Win"
+    const playerScore = this.props.histories.filter((history) =>
+      RPS.determineWinner(history.player, history.ai) === "Win"
+      // determineWinner(history.player, history.ai) === "Win"
     ).length;
     const aiScore = this.props.histories.filter((history) => 
-      determineWinner(history.ai, history.player) === "Win"
+      RPS.determineWinner(history.ai, history.player) === "Win"
+      // determineWinner(history.ai, history.player) === "Win"
     ).length;
     const historiesComponent = this.props.histories.map((history, index) =>
       <History key={index} player={history.player} ai={history.ai} />

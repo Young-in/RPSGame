@@ -2,13 +2,15 @@ import React from 'react';
 import './App.css';
 import Aside from './Aside';
 import Battle from './Battle';
-import {chooseAIChoice} from './Tools';
+import {chooseAIChoice, RPS} from './Tools';
+
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     const prevHistoryJSON = localStorage.getItem("previousHistory");
-    const prevHistory = JSON.parse(prevHistoryJSON) || [];
+    const prevHistoryStr = JSON.parse(prevHistoryJSON) || [];
+    const prevHistory = prevHistoryStr.map(history => ({player: new RPS(history.player), ai: new RPS(history.ai)}));
     this.state = {histories: prevHistory, //{player: "Rock", ai: "Scissors"}, {player: "Rock", ai: "Paper"}],
                   aiChoice: chooseAIChoice(prevHistory),
                   updateCount: 0};
@@ -37,7 +39,8 @@ class App extends React.Component {
   onClose() {
     console.log("onClose!");
     const histories = this.state.histories;
-    localStorage.setItem("previousHistory", JSON.stringify(histories));
+    const historiesStr = histories.map(history => ({player: history.player.getChoice(), ai: history.ai.getChoice()}));
+    localStorage.setItem("previousHistory", JSON.stringify(historiesStr));
   }
 
   componentDidMount() {
