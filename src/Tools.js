@@ -82,13 +82,16 @@ export function determineWinner(player1, player2) {
 export function chooseAIChoice(histories) {
     if (histories && histories.length > 0) {
         const length = histories.length;
-        if (length < 3) {
+        const prevLength = 2;
+        if (length < prevLength + 1) {
             return new RPS(RPSArray[Math.floor(Math.random() * 3)]);
         }
         var numAction = {};
         for (var i = 2; i < length; i++) {
-            const prevAction = histories[i - 2].player.getShortChoice() + histories[i - 2].ai.getShortChoice()
-                                + histories[i - 1].player.getShortChoice() + histories[i - 1].ai.getShortChoice(); // Abbreviated form (such as "RRPS")
+            let prevAction = "";
+            for (var j = 1; j <= prevLength; j++){
+                prevAction = histories[i - j].player.getShortChoice() + histories[i - j].ai.getShortChoice() + prevAction;
+            }
             const currAction = histories[i].player.getChoice(); // Fully written form (such as "Paper")
             if (numAction[prevAction] === undefined) {
                 numAction[prevAction] = { "Rock": 0, "Paper": 0, "Scissors": 0 };
@@ -97,8 +100,10 @@ export function chooseAIChoice(histories) {
                 numAction[prevAction][currAction]++;
             }
         }
-        const prevAction = histories[length - 2].player.getShortChoice() + histories[length - 2].ai.getShortChoice()
-                             + histories[length - 1].player.getShortChoice() + histories[length - 1].ai.getShortChoice();
+        let prevAction = "";
+        for (var j = 1; j <= prevLength; j++){
+            prevAction = histories[length - j].player.getShortChoice() + histories[i - j].ai.getShortChoice() + prevAction;
+        }
         console.log(prevAction);
         if (numAction[prevAction] === undefined) {
             return new RPS(RPSArray[Math.floor(Math.random() * 3)]);
